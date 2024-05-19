@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/main.dart';
+import 'package:mobile/view/assets/style.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -34,6 +36,10 @@ class _SplashPageState extends State<SplashPage>
         child: Center(
           child: Text(
             'kritis'.toUpperCase(),
+            style: GoogleFonts.poppins(
+                color: primaryColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0),
           ),
         ),
       ),

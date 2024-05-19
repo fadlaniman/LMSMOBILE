@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:mobile/view/widgets/showBottom.dart';
 
 class FloatingButtonWidget extends StatelessWidget {
-  FloatingButtonWidget({super.key, this.onPress});
-  final dynamic onPress;
+  FloatingButtonWidget(
+      {super.key,
+      required this.onPress,
+      required this.color,
+      required this.backgroundColor});
+  final onPress;
+  final color;
+  final backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.all(5.0),
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: backgroundColor,
             borderRadius: BorderRadius.circular(50.0),
             boxShadow: [
               BoxShadow(color: Colors.grey, blurRadius: 3, offset: Offset(1, 1))
@@ -21,7 +25,7 @@ class FloatingButtonWidget extends StatelessWidget {
             icon: Icon(
               Icons.add,
               size: 30.0,
-              color: Colors.red,
+              color: color,
             )));
   }
 }

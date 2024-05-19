@@ -1,15 +1,23 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile/firebase_options.dart';
+import 'package:mobile/view/assets/style.dart';
 import 'package:mobile/view/screen/splash.dart';
 import 'view/screen/login.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  runApp(MyApp());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final box = GetStorage().read('token');
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashPage(),
@@ -19,7 +27,6 @@ class MyApp extends StatelessWidget {
 
 class Home extends StatelessWidget {
   const Home({super.key});
-  final color = const Color.fromRGBO(210, 35, 19, 1);
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +39,15 @@ class Home extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'Masuk',
-                    style:
-                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.poppins(
+                        fontSize: 25.0, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
                     'Untuk akses fitur aplikasi dengan mudah!',
-                    style: TextStyle(fontSize: 16.0),
+                    style: GoogleFonts.poppins(fontSize: 16.0),
                   ),
                   SizedBox(
                     height: 20,
@@ -57,14 +64,12 @@ class Home extends StatelessWidget {
                             ),
                           ),
                           backgroundColor:
-                              MaterialStatePropertyAll<Color>(color),
+                              MaterialStatePropertyAll<Color>(primaryColor),
                           foregroundColor:
                               MaterialStatePropertyAll<Color>(Colors.white)),
-                      label: const Text(
-                        'Masuk',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w800),
-                      ),
+                      label: Text('Masuk',
+                          style:
+                              GoogleFonts.poppins(fontWeight: FontWeight.w500)),
                       icon: const Icon(Icons.arrow_right_alt)),
                 ])));
   }

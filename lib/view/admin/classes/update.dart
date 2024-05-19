@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile/controller/classesController.dart';
-import 'package:mobile/controller/classroomController.dart';
-import 'package:mobile/model/classroomModel.dart';
+import 'package:mobile/controller/classController.dart';
+import 'package:mobile/controller/enrollsController.dart';
 import 'package:mobile/view/widgets/input.dart';
 import 'package:mobile/view/widgets/textButton.dart';
 
@@ -13,18 +12,22 @@ class UpdatedClassPage extends StatefulWidget {
   State<UpdatedClassPage> createState() => _UpdatedClassPageState();
 }
 
-class _UpdatedClassPageState extends State<UpdatedClassPage> {
-  // final classes = Get.put(ClassesController());
-  // final classRoom = Get.put(ClassroomController());
-  final name = TextEditingController();
-  final section = TextEditingController();
-  final subject = TextEditingController();
+final enrollsController = Get.put(EnrollsController());
 
-  // @override
-  // void initState() {
-  //   classRoom.showClass();
-  //   super.initState();
-  // }
+class _UpdatedClassPageState extends State<UpdatedClassPage> {
+  final classController = Get.put(ClassController());
+  final name = TextEditingController(
+      text: enrollsController.enrollsByCode.value['name']);
+  final section = TextEditingController(
+      text: enrollsController.enrollsByCode.value['section']);
+  final subject = TextEditingController(
+      text: enrollsController.enrollsByCode.value['subject']);
+
+  @override
+  void initState() {
+    super.initState();
+    enrollsController.showEnrolls();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,34 +45,37 @@ class _UpdatedClassPageState extends State<UpdatedClassPage> {
                   Button(
                       title: 'Edit class',
                       onPress: () {
-                        // classes.updateClass(
-                        //     id: 1,
-                        //     name: name.text,
-                        //     section: section.text,
-                        //     subject: subject.text);
+                        classController.updateClass(
+                            classController.classCode.value,
+                            name.text.trim(),
+                            section.text.trim(),
+                            subject.text.trim());
                       }),
                 ])),
-        body: Obx(() {
-          // Classroom userClass = classRoom.dataList.value[0];
-          return Container(
+        body: Container(
             padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
             child: Column(
               children: [
                 InputWidget(
+                  keyboardType: TextInputType.text,
                   controller: name,
                   title: 'Class name',
                 ),
                 SizedBox(
                   height: 30.0,
                 ),
-                InputWidget(controller: section, title: 'Section'),
+                InputWidget(
+                    keyboardType: TextInputType.text,
+                    controller: section,
+                    title: 'Section'),
                 SizedBox(
                   height: 30.0,
                 ),
-                InputWidget(controller: subject, title: 'Subject')
+                InputWidget(
+                    keyboardType: TextInputType.text,
+                    controller: subject,
+                    title: 'Subject')
               ],
-            ),
-          );
-        }));
+            )));
   }
 }

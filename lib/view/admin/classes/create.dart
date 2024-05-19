@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile/controller/classesController.dart';
-import 'package:mobile/controller/classroomController.dart';
-import 'package:mobile/model/classroomModel.dart';
-import 'package:mobile/view/widgets/header.dart';
+import 'package:mobile/controller/classController.dart';
+import 'package:mobile/controller/usersController.dart';
 import 'package:mobile/view/widgets/input.dart';
 import 'package:mobile/view/widgets/textButton.dart';
+import 'package:random_string/random_string.dart';
 
 class CreateClassPage extends StatefulWidget {
   const CreateClassPage({super.key});
@@ -15,10 +14,12 @@ class CreateClassPage extends StatefulWidget {
 }
 
 class _CreateClassPageState extends State<CreateClassPage> {
-  // final classes = Get.put(ClassesController());
+  final classController = Get.put(ClassController());
+  final usersController = Get.put(UsersController());
   final name = TextEditingController();
   final section = TextEditingController();
   final subject = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,10 +36,17 @@ class _CreateClassPageState extends State<CreateClassPage> {
                   Button(
                       title: 'Create class',
                       onPress: () {
-                        // classes.createClass(
-                        //     name: name.text,
-                        //     section: section.text,
-                        //     subject: subject.text);
+                        final author =
+                            usersController.userData.value['firstName'] +
+                                ' ' +
+                                usersController.userData.value['lastName'];
+                        classController.createClass(
+                          randomAlphaNumeric(8),
+                          author,
+                          name.text.trim(),
+                          section.text.trim(),
+                          subject.text.trim(),
+                        );
                       }),
                 ])),
         body: Container(
@@ -46,17 +54,24 @@ class _CreateClassPageState extends State<CreateClassPage> {
           child: Column(
             children: [
               InputWidget(
+                keyboardType: TextInputType.text,
                 controller: name,
                 title: 'Class name',
               ),
               SizedBox(
                 height: 30.0,
               ),
-              InputWidget(controller: subject, title: 'Section'),
+              InputWidget(
+                  keyboardType: TextInputType.text,
+                  controller: section,
+                  title: 'Section'),
               SizedBox(
                 height: 30.0,
               ),
-              InputWidget(controller: section, title: 'Subject')
+              InputWidget(
+                  keyboardType: TextInputType.text,
+                  controller: subject,
+                  title: 'Subject')
             ],
           ),
         ));

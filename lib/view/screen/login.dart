@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/controller/authenticationController.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile/controller/authController.dart';
 import 'package:get/get.dart';
-import 'package:mobile/model/connection.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,15 +9,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  final username = TextEditingController();
+  final email = TextEditingController();
   final password = TextEditingController();
-  @override
-  void initState() {
-    connection();
-    super.initState();
-  }
 
-  final authentication = Get.put(AuthController());
+  final authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +26,28 @@ class LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     Text(
                       'Login',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: GoogleFonts.poppins(
+                          fontSize: 26.0, fontWeight: FontWeight.w500),
                     ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Obx(() {
+                      return authController.authMessage.value != ''
+                          ? Container(
+                              width: 200,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 30.0),
+                              child: Text(
+                                authController.authMessage.value,
+                                style: GoogleFonts.poppins(fontSize: 12.0),
+                                textAlign: TextAlign.center,
+                              ),
+                              decoration:
+                                  BoxDecoration(color: Colors.red.shade200),
+                            )
+                          : const Center();
+                    }),
                     SizedBox(
                       height: 25,
                     ),
@@ -51,9 +63,9 @@ class LoginPageState extends State<LoginPage> {
                                 offset: Offset(1, 2)),
                           ]),
                       child: TextField(
-                        controller: username,
+                        controller: email,
                         decoration: InputDecoration(
-                            hintText: 'username',
+                            hintText: 'Email',
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 15.0),
                             border: InputBorder.none),
@@ -77,7 +89,7 @@ class LoginPageState extends State<LoginPage> {
                         controller: password,
                         obscureText: true,
                         decoration: InputDecoration(
-                            hintText: 'password',
+                            hintText: 'Password',
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 15.0),
                             border: InputBorder.none),
@@ -88,14 +100,13 @@ class LoginPageState extends State<LoginPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        authentication.login(
-                            username: username.text.trim(),
-                            password: password.text.trim());
+                        authController.login(
+                            email.text.trim(), password.text.trim());
                       },
                       child: Text(
                         'Login',
-                        style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                        style: GoogleFonts.poppins(
+                            fontSize: 15.0, fontWeight: FontWeight.w600),
                       ),
                       style: ButtonStyle(
                           minimumSize: MaterialStatePropertyAll<Size>(

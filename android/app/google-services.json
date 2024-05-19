@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "297419808189",
+    "project_id": "mobilelms-8be5d",
+    "storage_bucket": "mobilelms-8be5d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297419808189:android:ca44ba920d36c5c6b6c6d4",
+        "android_client_info": {
+          "package_name": "com.example.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd_auWqq4VlMw02vg7WLJtpY4xvqsS8rg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
