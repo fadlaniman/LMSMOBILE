@@ -32,7 +32,7 @@ class _DashboardTeacherState extends State<DashboardTeacher> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: TitleWidget(title: 'Teacher'),
+          title: TitleWidget(),
         ),
         drawer: NavigationDrawerWidget(),
         floatingActionButton: FloatingButtonWidget(

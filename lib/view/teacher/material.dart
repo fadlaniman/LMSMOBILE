@@ -44,7 +44,7 @@ class _CreateMaterialState extends State<CreateMaterial> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TitleWidget(title: 'Material'),
+                    TitleWidget(),
                     Button(
                         title: 'Post',
                         onPress: () async {
@@ -55,7 +55,6 @@ class _CreateMaterialState extends State<CreateMaterial> {
                                 titleController.text.trim(),
                                 descriptionController.text.trim(),
                                 0,
-                                DateTime.now(),
                                 'material');
                           }
 

@@ -29,7 +29,7 @@ class _JoinClassPageState extends State<JoinClassPage> {
               icon: Icon(Icons.close)),
           title:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            TitleWidget(title: 'Join Class'),
+            TitleWidget(),
             Button(
               title: 'Join',
               onPress: () {

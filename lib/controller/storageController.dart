@@ -21,7 +21,6 @@ class StorageController extends GetxController {
   }
 
   Future download(String fileUrl) async {
-    Reference ref = FirebaseStorage.instance.refFromURL(fileUrl);
-    await ref.getDownloadURL();
+    await storageRef.child('images/${fileUrl}').getDownloadURL();
   }
 }

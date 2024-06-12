@@ -11,7 +11,6 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   final email = TextEditingController();
   final password = TextEditingController();
-
   final authController = Get.put(AuthController());
 
   @override
@@ -30,26 +29,35 @@ class LoginPageState extends State<LoginPage> {
                           fontSize: 26.0, fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
-                      height: 25,
+                      height: 15,
                     ),
                     Obx(() {
-                      return authController.authMessage.value != ''
-                          ? Container(
-                              width: 200,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 30.0),
-                              child: Text(
-                                authController.authMessage.value,
-                                style: GoogleFonts.poppins(fontSize: 12.0),
-                                textAlign: TextAlign.center,
+                      return authController.authenticate.value
+                          ? Container()
+                          : Container(
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade100,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                    color: Colors.red.shade700, width: 2),
                               ),
-                              decoration:
-                                  BoxDecoration(color: Colors.red.shade200),
-                            )
-                          : const Center();
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Icon(Icons.error, color: Colors.red.shade700),
+                                  SizedBox(width: 8),
+                                  Text('User not found',
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.red.shade700,
+                                          fontSize: 14.0)),
+                                ],
+                              ),
+                            );
                     }),
                     SizedBox(
-                      height: 25,
+                      height: 15,
                     ),
                     Container(
                       decoration: BoxDecoration(

@@ -29,14 +29,13 @@ class AttachmentController extends GetxController {
   }
 
   Future create(String code, String title, String description, int score,
-      DateTime date, String type) async {
+      String type) async {
     try {
       await ref.child('attachments/$code').push().set({
         'title': title,
         'description': description,
         'file': storageController.url.value,
         'score': score,
-        'date': date,
         'type': type,
       });
     } catch (e) {

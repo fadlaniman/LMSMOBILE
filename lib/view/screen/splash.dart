@@ -35,7 +35,7 @@ class _SplashPageState extends State<SplashPage>
       body: Container(
         child: Center(
           child: Text(
-            'kritis'.toUpperCase(),
+            'lemess'.toUpperCase(),
             style: GoogleFonts.poppins(
                 color: primaryColor,
                 fontWeight: FontWeight.bold,

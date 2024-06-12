@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/controller/attachmentController.dart';
 import 'package:mobile/controller/enrollsController.dart';
 import 'package:mobile/view/assets/style.dart';
-import 'package:mobile/view/widgets/navigationDrawer.dart';
 import 'package:mobile/view/widgets/title.dart';
 
 class AssignmentByCode extends StatefulWidget {
@@ -22,7 +21,7 @@ class _AssignmentByCodeState extends State<AssignmentByCode> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TitleWidget(title: ''),
+        title: TitleWidget(),
       ),
       body: Container(
         child: Column(
@@ -44,7 +43,7 @@ class _AssignmentByCodeState extends State<AssignmentByCode> {
                         fontWeight: FontWeight.w500),
                   ),
                   subtitle: Text(
-                      '${enrollsController.enrollsByCode.value['author']} • ${attachmentController.attachmmentById.value['date']}',
+                      '${enrollsController.enrollsByCode.value['author']}',
                       style: GoogleFonts.poppins(fontSize: 13.0)),
                 )),
             Container(

@@ -41,6 +41,9 @@ class EnrollsController extends GetxController {
     try {
       if (classes.snapshot.exists) {
         await ref.child('user_class/${user.userId.value}').update({code: true});
+        await ref
+            .child('class/${code}/members')
+            .update({user.userId.value: true});
         enrolls.value.clear();
         isLoading.value = true;
         showEnrolls();

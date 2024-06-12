@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/controller/authController.dart';
-import 'package:mobile/controller/enrollsController.dart';
 import 'package:mobile/controller/usersController.dart';
-import 'package:mobile/view/admin/classes/update.dart';
-import 'package:mobile/view/admin/dashboard.dart';
-import 'package:mobile/view/screen/home.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   NavigationDrawerWidget({super.key});
@@ -20,34 +16,43 @@ class NavigationDrawerWidget extends StatelessWidget {
         children: [
           ListTile(
             title: Text(
-              'Kritis app'.toUpperCase(),
+              'Lemess',
               style: GoogleFonts.poppins(
                   fontSize: 20.0, fontWeight: FontWeight.w500),
             ),
           ),
-          ListTile(
-            iconColor: Colors.grey.shade700,
-            title: Text(
-              'Home',
-              style: GoogleFonts.poppins(
-                fontSize: 14.0,
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10.0),
+            color: Colors.blueAccent[100],
+            child: ListTile(
+              title: Text(
+                'Home',
+                style: GoogleFonts.poppins(
+                    fontSize: 14.0, fontWeight: FontWeight.w500),
               ),
+              leading: Icon(
+                Icons.dashboard_sharp,
+                size: 25.0,
+              ),
+              onTap: () {},
             ),
-            leading: Icon(
-              Icons.home_outlined,
-            ),
-            onTap: () {},
           ),
-          ListTile(
-            iconColor: Colors.grey.shade700,
-            title: Text(
-              'Logout',
-              style: GoogleFonts.poppins(fontSize: 14.0),
+          SizedBox(
+            height: 5.0,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10.0),
+            child: ListTile(
+              iconColor: Colors.grey.shade700,
+              title: Text(
+                'Logout',
+                style: GoogleFonts.poppins(fontSize: 14.0),
+              ),
+              leading: Icon(
+                Icons.exit_to_app,
+              ),
+              onTap: () => authController.logout(),
             ),
-            leading: Icon(
-              Icons.logout_outlined,
-            ),
-            onTap: () => authController.logout(),
           ),
         ],
       ),

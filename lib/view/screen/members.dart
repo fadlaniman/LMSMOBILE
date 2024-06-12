@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile/controller/classController.dart';
 import 'package:mobile/controller/enrollsController.dart';
 import 'package:mobile/view/assets/style.dart';
 

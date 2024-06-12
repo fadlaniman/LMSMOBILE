@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: TitleWidget(title: usersController.userData.value['role']),
+          title: TitleWidget(),
         ),
         drawer: NavigationDrawerWidget(),
         body: Obx(() {
@@ -38,12 +38,7 @@ class _HomeState extends State<Home> {
               ? const Center(child: CircularProgressIndicator())
               : Padding(
                   padding: EdgeInsets.symmetric(vertical: 5.0),
-                  child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 3,
-                              mainAxisSpacing: 10.0,
-                              crossAxisCount: 1),
+                  child: ListView.builder(
                       itemCount: enrollsController.enrolls.value.length,
                       scrollDirection: Axis.vertical,
                       itemBuilder: ((context, index) {
@@ -60,8 +55,9 @@ class _HomeState extends State<Home> {
                               Get.to(() => NavigationBarWidget());
                             },
                             child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 10.0),
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
+                              margin: EdgeInsets.all(5.0),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 15.0),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
                                   color: Colors.primaries[
@@ -71,16 +67,14 @@ class _HomeState extends State<Home> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    enrollsController
-                                        .enrolls.value[codes[index]]['name'],
+                                    '',
                                     style: GoogleFonts.poppins(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20.0),
                                   ),
                                   Text(
-                                    enrollsController
-                                        .enrolls.value[codes[index]]['section'],
+                                    '',
                                     style: GoogleFonts.poppins(
                                         color: Colors.white,
                                         fontSize: 14.0,
@@ -90,8 +84,7 @@ class _HomeState extends State<Home> {
                                     height: 30.0,
                                   ),
                                   Text(
-                                    enrollsController
-                                        .enrolls.value[codes[index]]['author'],
+                                    '',
                                     style: GoogleFonts.poppins(
                                         color: Colors.white, fontSize: 13.0),
                                   )

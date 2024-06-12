@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile/controller/authController.dart';
 
 class TitleWidget extends StatelessWidget {
-  TitleWidget({super.key, required this.title});
-  final String title;
+  TitleWidget({super.key});
+
+  final authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        title,
-        style: GoogleFonts.poppins(),
-      ),
+    return Text(
+      authController.username.value,
+      style: GoogleFonts.poppins(),
     );
   }
 }

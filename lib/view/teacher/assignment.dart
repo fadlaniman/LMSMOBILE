@@ -42,7 +42,7 @@ class _CreateAssignmentState extends State<CreateAssignment> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TitleWidget(title: 'Assignment'),
+                  TitleWidget(),
                   Button(
                       title: 'Assign',
                       onPress: () async {
@@ -53,7 +53,6 @@ class _CreateAssignmentState extends State<CreateAssignment> {
                               titleController.text.trim(),
                               descriptionController.text.trim(),
                               1,
-                              DateTime.now(),
                               'assignment');
                         }
                         ;
@@ -104,7 +103,7 @@ class _CreateAssignmentState extends State<CreateAssignment> {
                             FilePickerResult? picked =
                                 await FilePicker.platform.pickFiles(
                               type: FileType.custom,
-                              allowedExtensions: ['pdf', 'doc'],
+                              allowedExtensions: ['pdf', 'doc', 'mp4'],
                             );
                             setState(() {
                               if (picked != null) {

@@ -23,7 +23,7 @@ class _MaterialByCodeState extends State<MaterialByCode> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TitleWidget(title: ''),
+        title: TitleWidget(),
       ),
       body: Container(
         child: Column(
@@ -45,7 +45,7 @@ class _MaterialByCodeState extends State<MaterialByCode> {
                         fontWeight: FontWeight.w500),
                   ),
                   subtitle: Text(
-                      '${enrollsController.enrollsByCode.value['author']} • ${attachmentController.attachmmentById.value['date']}',
+                      '${enrollsController.enrollsByCode.value['author']}',
                       style: GoogleFonts.poppins(fontSize: 13.0)),
                 )),
             InkWell(

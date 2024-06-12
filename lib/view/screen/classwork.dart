@@ -54,8 +54,7 @@ class _ClassWorkPageState extends State<ClassWorkPage> {
                               : Get.to(() => AssignmentByCode());
                         },
                         child: Container(
-                          margin: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 5.0),
+                          margin: EdgeInsets.all(5.0),
                           padding: EdgeInsets.all(3.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
@@ -88,7 +87,7 @@ class _ClassWorkPageState extends State<ClassWorkPage> {
                                   ),
                                   subtitle: Text(
                                       attachmentController.attachmment
-                                          .value[code[index]]['date'],
+                                          .value[code[index]]['description'],
                                       style: GoogleFonts.poppins(
                                         fontSize: 13.0,
                                       ))),
