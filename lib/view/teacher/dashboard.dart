@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile/controller/classController.dart';
+import 'package:mobile/controller/studiesController.dart';
 import 'package:mobile/controller/enrollsController.dart';
 import 'package:mobile/view/assets/style.dart';
 import 'package:mobile/view/admin/classes/create.dart';
@@ -21,7 +21,6 @@ class DashboardTeacher extends StatefulWidget {
 
 class _DashboardTeacherState extends State<DashboardTeacher> {
   final enrollsController = Get.put(EnrollsController());
-  final classController = Get.put(ClassController());
 
   @override
   void initState() {
@@ -68,12 +67,7 @@ class _DashboardTeacherState extends State<DashboardTeacher> {
                         codes.add(key);
                       });
                       return InkWell(
-                          onTap: () {
-                            enrollsController.enrollsByCode.value =
-                                enrollsController.enrolls.value[codes[index]];
-                            classController.classCode.value = codes[index];
-                            Get.to(NavigationBarWidget());
-                          },
+                          onTap: () {},
                           child: Container(
                             margin: EdgeInsets.symmetric(
                                 vertical: 5.0, horizontal: 10.0),
@@ -128,13 +122,6 @@ class _DashboardTeacherState extends State<DashboardTeacher> {
                                               ListTile(
                                                 title: Text('Edit'),
                                                 onTap: () {
-                                                  Navigator.of(context).pop();
-                                                  classController.classCode
-                                                      .value = codes[index];
-                                                  enrollsController
-                                                          .enrollsByCode.value =
-                                                      enrollsController.enrolls
-                                                          .value[codes[index]];
                                                   Get.to(
                                                       () => UpdatedClassPage());
                                                 },

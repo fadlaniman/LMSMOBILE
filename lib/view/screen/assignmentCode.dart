@@ -14,7 +14,6 @@ class AssignmentByCode extends StatefulWidget {
 }
 
 class _AssignmentByCodeState extends State<AssignmentByCode> {
-  final attachmentController = Get.put(AttachmentController());
   final enrollsController = Get.put(EnrollsController());
 
   @override
@@ -36,7 +35,7 @@ class _AssignmentByCodeState extends State<AssignmentByCode> {
                 child: ListTile(
                   contentPadding: EdgeInsetsDirectional.all(5.0),
                   title: Text(
-                    attachmentController.attachmmentById.value['title'],
+                    '',
                     style: GoogleFonts.poppins(
                         color: primaryColor,
                         fontSize: 20.0,

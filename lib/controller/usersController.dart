@@ -2,28 +2,45 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/model/usersModel.dart';
 import 'dart:convert';
-import 'package:mobile/view/admin/dashboard.dart';
+import 'package:mobile/view/admin/users/fetch-users.dart';
 
 class UsersController extends GetxController {
   final userId = ''.obs;
   final userData = {}.obs;
-  final loading = false.obs;
-  final data = <Users>[].obs;
+  final loading = true.obs;
+  final users = List<Users>.empty().obs;
+  final user = {}.obs;
 
-  Future<void> read() async {
-    final response =
-        await http.get(Uri.parse('http://10.0.2.2:8000/api/users'));
-    if (response.statusCode == 200) {
-      loading.value = true;
-      final List<Users> usersList =
-          usersFromJson(response.body); // Convert response body to List<Users>
-      data.assignAll(usersList); // Assign the list to the data
-    } else {
-      throw Exception('Failed to load users');
+  Future fetchById(String uid) async {
+    try {
+      final response =
+          await http.get(Uri.parse('http://192.168.1.84:8000/api/users/$uid'));
+      if (response.statusCode == 200) {
+        user.value = jsonDecode(response.body) as Map<String, dynamic>;
+      } else {
+        throw Exception(response.reasonPhrase);
+      }
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
-  Future create(
+  Future<List<Users>> fetch() async {
+    try {
+      final response =
+          await http.get(Uri.parse('http://192.168.1.84:8000/api/users'));
+      if (response.statusCode == 200) {
+        loading.value = false;
+        return usersFromJson(response.body);
+      } else {
+        throw Exception(response.reasonPhrase);
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Users>> send(
     String uid,
     String firstName,
     String lastName,
@@ -33,7 +50,32 @@ class UsersController extends GetxController {
     String phone,
   ) async {
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8000/api/users'),
+      Uri.parse('http://192.168.1.84:8000/api/users'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'uid': uid,
+        'firstName': firstName,
+        'lastName': lastName,
+        'email': email,
+        'password': password,
+        'level': level,
+        'phone': phone,
+      }),
+    );
+    if (response.statusCode == 201) {
+      Get.to(() => const ReadUsersPage());
+      return usersFromJson(response.body);
+    } else {
+      throw Exception(response.request);
+    }
+  }
+
+  Future<List<Users>> edit(String uid, String firstName, String lastName,
+      String email, String password, String level, String phone) async {
+    final response = await http.post(
+      Uri.parse('http://192.168.1.84:8000/api/users/$uid/update'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -48,33 +90,21 @@ class UsersController extends GetxController {
       }),
     );
     if (response.statusCode == 200) {
-      Get.to(() => Dashboard());
+      Get.to(() => const ReadUsersPage());
+      return usersFromJson(response.body);
+    } else {
+      throw Exception(response.body);
     }
   }
 
-  Future edit(String uid, String firstName, String lastName, String email,
-      String password, String phone, String level) async {
+  Future<List<Users>> delete(int uid) async {
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8000/api/users/${uid}/update'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'uid': uid,
-        'firstname': firstName,
-        'lastName': lastName,
-        'email': email,
-        'password': password,
-        'level': level,
-        'phone': phone,
-      }),
+      Uri.parse('http://192.168.1.84:8000/api/users/$uid/delete'),
     );
-    if (response.statusCode == 200) {}
-  }
-
-  Future delete(String uid) async {
-    final response = await http.post(
-      Uri.parse('http://10.0.2.2:8000/api/users/${uid}/delete'),
-    );
+    if (response.statusCode == 200) {
+      return users;
+    } else {
+      throw Exception('err');
+    }
   }
 }

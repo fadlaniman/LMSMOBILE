@@ -56,10 +56,8 @@ class EnrollsController extends GetxController {
   }
 
   Future outClass(String code) async {
-    // final conn = await connection;
     try {
       await ref.child('user_class/${user.userId.value}/${code}').remove();
-      // await conn.query('delete from user_class where class_id=?', [code]);
       enrolls.value.clear();
       isLoading.value = true;
       showEnrolls();

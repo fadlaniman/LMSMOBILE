@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile/controller/classController.dart';
+import 'package:mobile/controller/studiesController.dart';
 import 'package:mobile/controller/usersController.dart';
 
 class CreateClassPage extends StatefulWidget {
@@ -11,7 +11,6 @@ class CreateClassPage extends StatefulWidget {
 }
 
 class _CreateClassPageState extends State<CreateClassPage> {
-  final classController = Get.put(ClassController());
   final usersController = Get.put(UsersController());
   final name = TextEditingController();
   final section = TextEditingController();

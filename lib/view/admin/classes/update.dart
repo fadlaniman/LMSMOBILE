@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile/controller/classController.dart';
+import 'package:mobile/controller/studiesController.dart';
 import 'package:mobile/controller/enrollsController.dart';
 import 'package:mobile/view/widgets/input.dart';
 import 'package:mobile/view/widgets/textButton.dart';
@@ -15,7 +15,6 @@ class UpdatedClassPage extends StatefulWidget {
 final enrollsController = Get.put(EnrollsController());
 
 class _UpdatedClassPageState extends State<UpdatedClassPage> {
-  final classController = Get.put(ClassController());
   final name = TextEditingController(
       text: enrollsController.enrollsByCode.value['name']);
   final section = TextEditingController(
@@ -42,15 +41,7 @@ class _UpdatedClassPageState extends State<UpdatedClassPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Edit class'),
-                  Button(
-                      title: 'Edit class',
-                      onPress: () {
-                        classController.updateClass(
-                            classController.classCode.value,
-                            name.text.trim(),
-                            section.text.trim(),
-                            subject.text.trim());
-                      }),
+                  Button(title: 'Edit class', onPress: () {}),
                 ])),
         body: Container(
             padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),

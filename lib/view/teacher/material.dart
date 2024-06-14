@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mobile/controller/attachmentController.dart';
-import 'package:mobile/controller/classController.dart';
+import 'package:mobile/controller/studiesController.dart';
 import 'package:mobile/controller/storageController.dart';
 import 'package:mobile/view/widgets/navigationBar.dart';
 import 'package:mobile/view/widgets/showBottom.dart';
@@ -26,8 +26,7 @@ class _CreateMaterialState extends State<CreateMaterial> {
   final descriptionController = TextEditingController();
 
   final storageController = Get.put(StorageController());
-  final classController = Get.put(ClassController());
-  final assignmentController = Get.put(AttachmentController());
+
   final picker = ImagePicker();
 
   @override
@@ -48,16 +47,6 @@ class _CreateMaterialState extends State<CreateMaterial> {
                     Button(
                         title: 'Post',
                         onPress: () async {
-                          if (_file != null) {
-                            storageController.create(_file);
-                            assignmentController.create(
-                                classController.classCode.value,
-                                titleController.text.trim(),
-                                descriptionController.text.trim(),
-                                0,
-                                'material');
-                          }
-
                           Get.to(() => NavigationBarWidget());
                         })
                   ]))),

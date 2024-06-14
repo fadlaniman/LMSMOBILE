@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/controller/authController.dart';
-import 'package:mobile/controller/classController.dart';
+import 'package:mobile/controller/studiesController.dart';
 import 'package:mobile/controller/enrollsController.dart';
 import 'package:mobile/controller/usersController.dart';
 import 'package:mobile/view/widgets/navigationBar.dart';
@@ -18,7 +18,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final enrollsController = Get.put(EnrollsController());
-  final classController = Get.put(ClassController());
   final usersController = Get.put(UsersController());
 
   @override
@@ -47,13 +46,7 @@ class _HomeState extends State<Home> {
                           codes.add(key);
                         });
                         return InkWell(
-                            onTap: () {
-                              enrollsController.enrollsByCode.value =
-                                  enrollsController.enrolls.value[codes[index]];
-                              classController.classCode.value = codes[index];
-                              print(classController.classCode.value);
-                              Get.to(() => NavigationBarWidget());
-                            },
+                            onTap: () {},
                             child: Container(
                               margin: EdgeInsets.all(5.0),
                               padding: EdgeInsets.symmetric(

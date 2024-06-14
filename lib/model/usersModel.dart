@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final users = usersFromJson(jsonString);
-
 import 'dart:convert';
 
 List<Users> usersFromJson(String str) =>
@@ -30,6 +26,7 @@ class Users {
     required this.createdAt,
     required this.updatedAt,
   });
+  
 
   factory Users.fromJson(Map<String, dynamic> json) => Users(
         uid: json["uid"],

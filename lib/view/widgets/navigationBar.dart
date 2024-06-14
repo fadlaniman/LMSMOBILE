@@ -72,7 +72,6 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
             ),
       body: <Widget>[
         AttendancesPage(),
-        ClassWorkPage(),
         MembersPage(),
       ][_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
