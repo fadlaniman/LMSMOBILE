@@ -12,30 +12,20 @@ class MembersPage extends StatefulWidget {
 }
 
 class _MembersPageState extends State<MembersPage> {
-  final enrollsController = Get.put(EnrollsController());
+  final EnrollsController enrollController = Get.find();
 
   @override
   void initState() {
+    enrollController.fetch();
     super.initState();
-    enrollsController.showEnrolls();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(children: <Widget>[
-        ListTile(
-            title: Container(
-          child: Container(
-            padding: EdgeInsets.only(bottom: 10.0),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: primaryColor,
-                ),
-              ),
-            ),
-            child: Text(
+    return Column(children: <Widget>[
+      Container(
+          child: ListTile(
+            title: Text(
               'Teachers',
               style: GoogleFonts.poppins(
                 fontSize: 20.0,
@@ -44,26 +34,32 @@ class _MembersPageState extends State<MembersPage> {
               ),
             ),
           ),
-        )),
-        ListTile(
-          title: Text(
-            enrollsController.enrollsByCode['author'],
-            style: GoogleFonts.poppins(
-                fontSize: 14.0, fontWeight: FontWeight.w500),
-          ),
-        ),
-        ListTile(
-            title: Container(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: primaryColor,
-                ),
+          padding: EdgeInsets.only(bottom: 5.0),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: primaryColor,
               ),
             ),
-            child: Text(
+          )),
+      Flexible(
+          child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: enrollController.users.length,
+              itemBuilder: (context, index) {
+                return enrollController.users[index].users.level == "2"
+                    ? ListTile(
+                        title: Text(
+                          '${enrollController.users[index].users.firstName} ${enrollController.users[index].users.lastName}',
+                          style: GoogleFonts.poppins(
+                              fontSize: 14.0, fontWeight: FontWeight.w500),
+                        ),
+                      )
+                    : Container();
+              })),
+      Container(
+          child: ListTile(
+            title: Text(
               'Students',
               style: GoogleFonts.poppins(
                 fontSize: 20.0,
@@ -72,8 +68,29 @@ class _MembersPageState extends State<MembersPage> {
               ),
             ),
           ),
-        )),
-      ]),
-    );
+          padding: EdgeInsets.only(bottom: 5.0),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: primaryColor,
+              ),
+            ),
+          )),
+      Flexible(
+          child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: enrollController.users.length,
+              itemBuilder: (context, index) {
+                return enrollController.users[index].users.level == "3"
+                    ? ListTile(
+                        title: Text(
+                          '${enrollController.users[index].users.firstName} ${enrollController.users[index].users.lastName}',
+                          style: GoogleFonts.poppins(
+                              fontSize: 14.0, fontWeight: FontWeight.w500),
+                        ),
+                      )
+                    : Container();
+              })),
+    ]);
   }
 }

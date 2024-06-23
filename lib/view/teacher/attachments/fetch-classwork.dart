@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile/controller/attachmentController.dart';
-
+import 'package:mobile/controller/commentsController.dart';
 import 'package:mobile/view/assets/style.dart';
 import 'package:mobile/view/teacher/attachments/create-assignment.dart';
 import 'package:mobile/view/teacher/attachments/create-material.dart';
+import 'package:mobile/view/teacher/attachments/fetch-assignment.dart';
 import 'package:mobile/view/widgets/floatingButtonBottom.dart';
 import 'package:mobile/view/widgets/showBottom.dart';
+import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'dart:io';
 
-class ClassWorkPage extends StatefulWidget {
-  const ClassWorkPage({super.key});
+class TeacherClassWorkPage extends StatefulWidget {
+  const TeacherClassWorkPage({super.key});
 
   @override
-  State<ClassWorkPage> createState() => _ClassWorkPageState();
+  State<TeacherClassWorkPage> createState() => _TeacherClassWorkPageState();
 }
 
-class _ClassWorkPageState extends State<ClassWorkPage> {
+class _TeacherClassWorkPageState extends State<TeacherClassWorkPage> {
   final attachmentsController = Get.put(AttachmentsController());
+  final commentsController = Get.put(CommentsController());
+  bool? isError;
+  bool? isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +43,19 @@ class _ClassWorkPageState extends State<ClassWorkPage> {
                     itemCount: attachmentsController.attachments.length,
                     itemBuilder: ((context, index) {
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          commentsController.fetch(
+                              attachmentsController
+                                      .attachments[index].classId ??
+                                  '',
+                              attachmentsController.attachments[index].id ?? 0);
+                          attachmentsController.fetchById(
+                              attachmentsController
+                                      .attachments[index].classId ??
+                                  '',
+                              attachmentsController.attachments[index].id ?? 0);
+                          Get.to(() => const TeacherAssignmentPage());
+                        },
                         child: Container(
                           margin: EdgeInsets.all(5.0),
                           padding: EdgeInsets.all(3.0),
@@ -76,11 +96,9 @@ class _ClassWorkPageState extends State<ClassWorkPage> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   subtitle: Text(
-                                      attachmentsController
-                                              .attachments[index].description ??
-                                          '',
+                                      '${DateFormat('d MMMM').format(attachmentsController.attachments[index].createdAt ?? DateTime.now())}',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 13.0,
+                                        fontSize: 12.0,
                                       ))),
                             ],
                           ),
@@ -109,7 +127,7 @@ class _ClassWorkPageState extends State<ClassWorkPage> {
                     leading: Icon(Icons.assignment_outlined),
                     onTap: () {
                       Navigator.of(context).pop();
-                      Get.to(() => CreateAssignment());
+                      Get.to(() => const CreateAssignment());
                     },
                   ),
                   ListTile(
@@ -117,7 +135,7 @@ class _ClassWorkPageState extends State<ClassWorkPage> {
                     leading: Icon(Icons.class_outlined),
                     onTap: () {
                       Navigator.of(context).pop();
-                      Get.to(() => CreateMaterial());
+                      Get.to(() => const CreateMaterial());
                     },
                   )
                 ],

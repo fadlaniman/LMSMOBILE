@@ -7,21 +7,19 @@ import 'package:mobile/view/admin/users/update-users.dart';
 import 'package:mobile/view/assets/style.dart';
 import 'package:mobile/view/widgets/floatingButtonBottom.dart';
 
-class ReadUsersPage extends StatefulWidget {
-  const ReadUsersPage({super.key});
+class FetchUsersPage extends StatefulWidget {
+  const FetchUsersPage({super.key});
 
   @override
-  State<ReadUsersPage> createState() => _ReadUsersPageState();
+  State<FetchUsersPage> createState() => _FetchUsersPageState();
 }
 
-class _ReadUsersPageState extends State<ReadUsersPage> {
-  UsersController usersController = Get.put(UsersController());
+class _FetchUsersPageState extends State<FetchUsersPage> {
+  final UsersController usersController = Get.find();
 
   @override
   void initState() {
-    usersController
-        .fetch()
-        .then((value) => usersController.users.assignAll(value));
+    usersController.fetch();
     super.initState();
   }
 
@@ -50,6 +48,7 @@ class _ReadUsersPageState extends State<ReadUsersPage> {
                   itemCount: usersController.users.length,
                   itemBuilder: (context, index) {
                     return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
@@ -60,26 +59,35 @@ class _ReadUsersPageState extends State<ReadUsersPage> {
                       ),
                       margin: EdgeInsets.symmetric(vertical: 5.0),
                       child: ListTile(
+                        leading: Text(
+                          '${index + 1}',
+                          style: GoogleFonts.poppins(fontSize: 12.0),
+                        ),
                         title: Text(
-                          usersController.users[index].email,
-                          style: GoogleFonts.poppins(),
+                          usersController.users[index].email ?? '',
+                          style: GoogleFonts.poppins(fontSize: 14.0),
                         ),
                         subtitle: Text(
                             usersController.users[index].uid.toString(),
-                            style: GoogleFonts.poppins()),
+                            style: GoogleFonts.poppins(fontSize: 12.0)),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                                icon: Icon(Icons.edit),
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: Colors.yellow.shade700,
+                                ),
                                 onPressed: () {
-                                  usersController.fetchById(usersController
-                                      .users[index].uid
-                                      .toString());
-                                  Get.to(() => UpdateUsersPage());
+                                  usersController.fetchById(
+                                      usersController.users[index].uid ?? 0);
+                                  Get.to(() => const UpdateUsersPage());
                                 }),
                             IconButton(
-                              icon: Icon(Icons.delete),
+                              icon: Icon(
+                                Icons.delete,
+                                color: primaryColor,
+                              ),
                               onPressed: () {
                                 showDialog(
                                   context: context,
@@ -88,7 +96,7 @@ class _ReadUsersPageState extends State<ReadUsersPage> {
                                       titleTextStyle: GoogleFonts.poppins(
                                           color: Colors.black),
                                       title: const Text(
-                                        'Alert',
+                                        'Delete',
                                         style: TextStyle(
                                             color: Colors.red, fontSize: 18.0),
                                       ),
@@ -112,7 +120,8 @@ class _ReadUsersPageState extends State<ReadUsersPage> {
                                           onPressed: () {
                                             usersController.delete(
                                                 usersController
-                                                    .users[index].uid);
+                                                        .users[index].uid ??
+                                                    0);
                                             Navigator.of(context).pop();
                                           },
                                         ),

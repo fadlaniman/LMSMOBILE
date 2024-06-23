@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile/controller/studiesController.dart';
+import 'package:mobile/controller/classController.dart';
+import 'package:mobile/view/admin/classes/create-class.dart';
 import 'package:mobile/view/admin/studies/create-studies.dart';
-import 'package:mobile/view/admin/studies/update-studies.dart';
 import 'package:mobile/view/assets/style.dart';
 import 'package:mobile/view/widgets/floatingButtonBottom.dart';
 
-class FetchStudiesPage extends StatefulWidget {
-  const FetchStudiesPage({super.key});
+class FetchClassPage extends StatefulWidget {
+  const FetchClassPage({super.key});
 
   @override
-  State<FetchStudiesPage> createState() => _FetchStudiesPageState();
+  State<FetchClassPage> createState() => _FetchClassPageState();
 }
 
-class _FetchStudiesPageState extends State<FetchStudiesPage> {
-  final studiesController = Get.put(StudiesController());
-
+class _FetchClassPageState extends State<FetchClassPage> {
+  final ClassController classController = Get.find();
+  int number = 1;
   @override
   void initState() {
-    studiesController.fetch();
+    classController.fetch();
     super.initState();
   }
 
@@ -28,24 +28,24 @@ class _FetchStudiesPageState extends State<FetchStudiesPage> {
     return Scaffold(
         appBar: AppBar(
           title: Obx(() {
-            return studiesController.loading.value
+            return classController.loading.value
                 ? Text(
                     'Loading...',
                     style: GoogleFonts.poppins(),
                   )
                 : Text(
-                    'Studies',
+                    'Class',
                     style: GoogleFonts.poppins(),
                   );
           }),
         ),
         body: Obx(() {
-          return studiesController.loading.value
+          return classController.loading.value
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
               : ListView.builder(
-                  itemCount: studiesController.studies.length,
+                  itemCount: classController.classes.length,
                   itemBuilder: (context, index) {
                     return Container(
                       decoration: BoxDecoration(
@@ -63,26 +63,15 @@ class _FetchStudiesPageState extends State<FetchStudiesPage> {
                           style: GoogleFonts.poppins(fontSize: 12.0),
                         ),
                         title: Text(
-                          studiesController.studies[index].name ?? '',
+                          classController.classes[index].users.email,
                           style: GoogleFonts.poppins(fontSize: 14.0),
                         ),
                         subtitle: Text(
-                            studiesController.studies[index].id ?? '',
+                            '${classController.classes[index].classes.id} - ${classController.classes[index].classes.name}',
                             style: GoogleFonts.poppins(fontSize: 12.0)),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            IconButton(
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: Colors.yellow.shade700,
-                                ),
-                                onPressed: () {
-                                  studiesController.fetchById(
-                                      studiesController.studies[index].id ??
-                                          '');
-                                  Get.to(() => const UpdateStudiesPage());
-                                }),
                             IconButton(
                               icon: Icon(
                                 Icons.delete,
@@ -118,10 +107,9 @@ class _FetchStudiesPageState extends State<FetchStudiesPage> {
                                           ),
                                           child: const Text('Yes'),
                                           onPressed: () {
-                                            studiesController.delete(
-                                                studiesController
-                                                    .studies[index].id
-                                                    .toString());
+                                            classController.delete(
+                                                classController
+                                                    .classes[index].id);
                                             Navigator.of(context).pop();
                                           },
                                         ),
@@ -140,7 +128,7 @@ class _FetchStudiesPageState extends State<FetchStudiesPage> {
         floatingActionButton: FloatingButtonWidget(
           backgroundColor: Colors.white,
           color: primaryColor,
-          onPress: () => Get.to(() => const CreateStudiesPage()),
+          onPress: () => Get.to(() => const CreateClassPage()),
         ));
   }
 }

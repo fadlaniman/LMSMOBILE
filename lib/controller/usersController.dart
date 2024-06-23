@@ -3,20 +3,23 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/model/usersModel.dart';
 import 'dart:convert';
 import 'package:mobile/view/admin/users/fetch-users.dart';
+import '../constants.dart';
 
 class UsersController extends GetxController {
   final userId = ''.obs;
   final userData = {}.obs;
   final loading = true.obs;
-  final users = List<Users>.empty().obs;
-  final user = {}.obs;
+  final users = <Users>[].obs;
+  final user = Rx<Users>(Users());
 
-  Future fetchById(String uid) async {
+  Future fetchById(int uid) async {
     try {
       final response =
-          await http.get(Uri.parse('http://192.168.1.84:8000/api/users/$uid'));
+          await http.get(Uri.parse('${Url.baseUrl}/api/users/$uid'));
       if (response.statusCode == 200) {
-        user.value = jsonDecode(response.body) as Map<String, dynamic>;
+        final Map<String, dynamic> responseData =
+            jsonDecode(response.body)['data'];
+        user.value = Users.fromJson(responseData);
       } else {
         throw Exception(response.reasonPhrase);
       }
@@ -25,22 +28,26 @@ class UsersController extends GetxController {
     }
   }
 
-  Future<List<Users>> fetch() async {
+  Future fetch() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://192.168.1.84:8000/api/users'));
+      final response = await http.get(Uri.parse('${Url.baseUrl}/api/users'));
       if (response.statusCode == 200) {
+        final List<dynamic> responseData = jsonDecode(response.body)['data'];
+        users.value = responseData.map((data) {
+          return Users.fromJson(data as Map<String, dynamic>);
+        }).toList();
         loading.value = false;
-        return usersFromJson(response.body);
       } else {
         throw Exception(response.reasonPhrase);
       }
     } catch (e) {
       throw Exception(e);
+    } finally {
+      loading.value = false;
     }
   }
 
-  Future<List<Users>> send(
+  Future send(
     String uid,
     String firstName,
     String lastName,
@@ -50,7 +57,7 @@ class UsersController extends GetxController {
     String phone,
   ) async {
     final response = await http.post(
-      Uri.parse('http://192.168.1.84:8000/api/users'),
+      Uri.parse('${Url.baseUrl}/api/users'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -65,17 +72,17 @@ class UsersController extends GetxController {
       }),
     );
     if (response.statusCode == 201) {
-      Get.to(() => const ReadUsersPage());
-      return usersFromJson(response.body);
+      Get.to(() => const FetchUsersPage());
+      return fetch();
     } else {
       throw Exception(response.request);
     }
   }
 
-  Future<List<Users>> edit(String uid, String firstName, String lastName,
-      String email, String password, String level, String phone) async {
+  Future edit(String uid, String firstName, String lastName, String email,
+      String password, String level, String phone) async {
     final response = await http.post(
-      Uri.parse('http://192.168.1.84:8000/api/users/$uid/update'),
+      Uri.parse('${Url.baseUrl}/api/users/$uid/update'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -89,20 +96,21 @@ class UsersController extends GetxController {
         'phone': phone,
       }),
     );
+    print(response.reasonPhrase);
     if (response.statusCode == 200) {
-      Get.to(() => const ReadUsersPage());
-      return usersFromJson(response.body);
+      Get.to(() => const FetchUsersPage());
+      return fetch();
     } else {
-      throw Exception(response.body);
+      throw Exception(response.reasonPhrase);
     }
   }
 
-  Future<List<Users>> delete(int uid) async {
+  Future delete(int uid) async {
     final response = await http.post(
-      Uri.parse('http://192.168.1.84:8000/api/users/$uid/delete'),
+      Uri.parse('${Url.baseUrl}/api/users/$uid/delete'),
     );
     if (response.statusCode == 200) {
-      return users;
+      return fetch();
     } else {
       throw Exception('err');
     }

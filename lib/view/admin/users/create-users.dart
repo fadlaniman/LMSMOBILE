@@ -12,7 +12,7 @@ class CreateUsersPage extends StatefulWidget {
 
 class _CreateUsersPageState extends State<CreateUsersPage> {
   dynamic _level;
-  final usersController = Get.put(UsersController());
+  final UsersController usersController = Get.find();
   final _uid = TextEditingController();
   final _firstName = TextEditingController();
   final _lastName = TextEditingController();
@@ -42,7 +42,7 @@ class _CreateUsersPageState extends State<CreateUsersPage> {
                           _lastName.text.trim(),
                           _email.text.trim(),
                           _password.text.trim(),
-                          _level,
+                          _level.toString(),
                           _phone.text.trim(),
                         );
                       }),

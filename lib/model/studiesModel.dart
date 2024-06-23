@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 List<Studies> studiesFromJson(String str) =>
@@ -9,20 +7,20 @@ String studiesToJson(List<Studies> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Studies {
-  String id;
-  String name;
-  String description;
-  int duration;
+  String? id;
+  String? name;
+  String? description;
+  int? duration;
   DateTime? createdAt;
   DateTime? updatedAt;
 
   Studies({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.duration,
-    required this.createdAt,
-    required this.updatedAt,
+    this.id,
+    this.name,
+    this.description,
+    this.duration,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Studies.fromJson(Map<String, dynamic> json) => Studies(

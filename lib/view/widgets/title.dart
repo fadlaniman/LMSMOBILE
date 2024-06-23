@@ -11,7 +11,7 @@ class TitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      authController.username.value,
+      '${authController.user['firstName']}',
       style: GoogleFonts.poppins(),
     );
   }

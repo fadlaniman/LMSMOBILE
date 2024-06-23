@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/controller/authController.dart';
 import 'package:get/get.dart';
+import 'package:mobile/view/screen/forgotPassword.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -130,6 +131,17 @@ class LoginPageState extends State<LoginPage> {
                           foregroundColor:
                               MaterialStatePropertyAll<Color>(Colors.white)),
                     ),
+                    ListTile(
+                      onTap: () => Get.to(() => const ForgotPassword()),
+                      title: Text(
+                        'Forgot Password?',
+                        textAlign: TextAlign.right,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12.0,
+                            color: Colors.blue.shade900),
+                      ),
+                    )
                   ],
                 )))));
   }

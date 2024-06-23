@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile/controller/attachmentController.dart';
 import 'package:mobile/controller/enrollsController.dart';
 import 'package:mobile/controller/storageController.dart';
 import 'package:mobile/view/assets/style.dart';
@@ -43,9 +42,8 @@ class _MaterialByCodeState extends State<MaterialByCode> {
                         fontSize: 20.0,
                         fontWeight: FontWeight.w500),
                   ),
-                  subtitle: Text(
-                      '${enrollsController.enrollsByCode.value['author']}',
-                      style: GoogleFonts.poppins(fontSize: 13.0)),
+                  subtitle:
+                      Text('', style: GoogleFonts.poppins(fontSize: 13.0)),
                 )),
             InkWell(
               onTap: () {},

@@ -18,7 +18,6 @@ class _AttendancesPageState extends State<AttendancesPage> {
   @override
   void initState() {
     super.initState();
-    enrollsController.showEnrolls();
   }
 
   @override

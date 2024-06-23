@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile/controller/authController.dart';
-import 'package:mobile/controller/studiesController.dart';
+import 'package:mobile/controller/attachmentController.dart';
+import 'package:mobile/controller/attendanceController.dart';
 import 'package:mobile/controller/enrollsController.dart';
+import 'package:mobile/controller/studiesController.dart';
+import 'package:mobile/controller/userAttendanceController.dart';
 import 'package:mobile/controller/usersController.dart';
 import 'package:mobile/view/widgets/navigationBar.dart';
 import 'package:mobile/view/widgets/title.dart';
 import 'package:get/get.dart';
 import 'package:mobile/view/widgets/navigationDrawer.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeTeacherPage extends StatefulWidget {
+  const HomeTeacherPage({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeTeacherPage> createState() => _HomeTeacherPageState();
 }
 
-class _HomeState extends State<Home> {
-  final enrollsController = Get.put(EnrollsController());
+class _HomeTeacherPageState extends State<HomeTeacherPage> {
+  final enrollController = Get.put(EnrollsController());
   final usersController = Get.put(UsersController());
+  final studiesController = Get.put(StudiesController());
+  final attachmentsController = Get.put(AttachmentsController());
+  final attendanceController = Get.put(AttendanceController());
+  final userAttendanceController = Get.put(UserAttendanceController());
 
   @override
   void initState() {
-    enrollsController.showEnrolls();
+    enrollController.fetch();
     super.initState();
   }
 
@@ -33,22 +39,29 @@ class _HomeState extends State<Home> {
         ),
         drawer: NavigationDrawerWidget(),
         body: Obx(() {
-          return enrollsController.isLoading.value
+          return enrollController.loading.value
               ? const Center(child: CircularProgressIndicator())
               : Padding(
                   padding: EdgeInsets.symmetric(vertical: 5.0),
                   child: ListView.builder(
-                      itemCount: enrollsController.enrolls.value.length,
+                      itemCount: enrollController.enrolls.length,
                       scrollDirection: Axis.vertical,
                       itemBuilder: ((context, index) {
-                        List codes = [];
-                        enrollsController.enrolls.forEach((key, value) {
-                          codes.add(key);
-                        });
-                        return InkWell(
-                            onTap: () {},
+                        return GestureDetector(
+                            onTap: () {
+                              studiesController.fetchById(
+                                  enrollController.enrolls[index].classes.id);
+                              enrollController.fetchUsers(
+                                  enrollController.enrolls[index].classes.id);
+                              attachmentsController.fetch(
+                                  enrollController.enrolls[index].classes.id);
+                              attendanceController.fetch(
+                                  enrollController.enrolls[index].classes.id);
+                              Get.to(() => const NavigationBarWidget());
+                            },
                             child: Container(
-                              margin: EdgeInsets.all(5.0),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 5.0),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20.0, vertical: 15.0),
                               decoration: BoxDecoration(
@@ -60,21 +73,25 @@ class _HomeState extends State<Home> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '',
+                                    '${enrollController.enrolls[index].classes.name}',
                                     style: GoogleFonts.poppins(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20.0),
                                   ),
+                                  SizedBox(
+                                    height: 1.0,
+                                  ),
                                   Text(
-                                    '',
+                                    enrollController
+                                        .enrolls[index].classes.description,
                                     style: GoogleFonts.poppins(
                                         color: Colors.white,
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
-                                    height: 30.0,
+                                    height: 25.0,
                                   ),
                                   Text(
                                     '',

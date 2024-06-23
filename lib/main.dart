@@ -1,18 +1,12 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile/firebase_options.dart';
 import 'package:mobile/view/assets/style.dart';
 import 'package:mobile/view/screen/splash.dart';
 import 'view/screen/login.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
-void main() async {
+void main() {
   runApp(MyApp());
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 }
 
 class MyApp extends StatelessWidget {

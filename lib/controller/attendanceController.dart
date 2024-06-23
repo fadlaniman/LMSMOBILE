@@ -1,31 +1,32 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/controller/authController.dart';
-import 'package:mobile/model/classModel.dart';
+import 'package:mobile/model/attendanceModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import '../constants.dart';
 
-class EnrollsController extends GetxController {
+class AttendanceController extends GetxController {
   final AuthController auth = Get.find();
-  final enrolls = <Class>[].obs;
-  final users = <Class>[].obs;
+  final attendances = <Attendance>[].obs;
   final loading = true.obs;
 
-  Future fetchUsers(String id) async {
+  Future fetch(id) async {
     try {
       final response = await http.get(
-        Uri.parse('${Url.baseUrl}/api/classes/$id/enroll/users'),
+        Uri.parse('${Url.baseUrl}/api/classes/$id/attendances'),
         headers: <String, String>{
           'Authorization': 'Bearer ${auth.box.read('token')}',
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-
       if (response.statusCode == 200) {
         final List<dynamic> responseData = jsonDecode(response.body)['data'];
-        users.value = responseData.map((data) {
-          return Class.fromJson(data as Map<String, dynamic>);
+        attendances.value = responseData.map((data) {
+          return Attendance.fromJson(data as Map<String, dynamic>);
         }).toList();
+        loading.value = false;
       } else {
         throw Exception(response.reasonPhrase);
       }
@@ -34,23 +35,23 @@ class EnrollsController extends GetxController {
     }
   }
 
-  Future fetch() async {
+  Future send(id, DateTime dateTime) async {
     try {
-      final response = await http.get(
-        Uri.parse('${Url.baseUrl}/api/classes/enroll'),
+      final response = await http.post(
+        Uri.parse('${Url.baseUrl}/api/classes/$id/attendances'),
         headers: <String, String>{
           'Authorization': 'Bearer ${auth.box.read('token')}',
           'Content-Type': 'application/json; charset=UTF-8',
         },
+        body: jsonEncode(<String, dynamic>{
+          'datetime': DateFormat('yyyy-MM-dd').format(dateTime),
+          'class_id': id,
+        }),
       );
-      if (response.statusCode == 200) {
-        final List<dynamic> responseData = jsonDecode(response.body)['data'];
-        enrolls.value = responseData.map((data) {
-          return Class.fromJson(data as Map<String, dynamic>);
-        }).toList();
-        loading.value = false;
+      if (response.statusCode == 201) {
+        return fetch(id);
       } else {
-        throw Exception(response.reasonPhrase);
+        throw Exception(response.statusCode);
       }
     } catch (e) {
       throw Exception(e);

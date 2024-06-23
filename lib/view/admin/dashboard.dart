@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile/controller/classController.dart';
+import 'package:mobile/controller/studiesController.dart';
 import 'package:mobile/controller/usersController.dart';
-import 'package:mobile/view/admin/classes/create.dart';
-import 'package:mobile/view/admin/studies/create-studies.dart';
+import 'package:mobile/view/admin/classes/fetch-class.dart';
 import 'package:mobile/view/admin/studies/fetch-studies.dart';
-import 'package:mobile/view/admin/users/create-users.dart';
 import 'package:mobile/view/admin/users/fetch-users.dart';
-import 'package:mobile/view/assets/style.dart';
-import 'package:mobile/view/widgets/floatingButtonBottom.dart';
 import 'package:mobile/view/widgets/navigationDrawer.dart';
-import 'package:mobile/view/widgets/showBottom.dart';
 import 'package:mobile/view/widgets/title.dart';
 
 class Dashboard extends StatefulWidget {
@@ -22,6 +19,17 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   final usersController = Get.put(UsersController());
+  final studiesController = Get.put(StudiesController());
+  final classController = Get.put(ClassController());
+
+  @override
+  void initState() {
+    usersController.fetch();
+    studiesController.fetch();
+    classController.fetch();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,16 +63,16 @@ class _DashboardState extends State<Dashboard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    "Total record ",
-                    style: GoogleFonts.poppins(),
-                  ),
+                  Obx(() => Text(
+                        "Total data record ${usersController.users.length + studiesController.studies.length}",
+                        style: GoogleFonts.poppins(),
+                      )),
                 ],
               ),
               SizedBox(height: 15.0),
               GestureDetector(
                   onTap: () {
-                    Get.to(() => const ReadUsersPage());
+                    Get.to(() => const FetchUsersPage());
                   },
                   child: Container(
                     height: 90.0,
@@ -80,21 +88,22 @@ class _DashboardState extends State<Dashboard> {
                       SizedBox(
                         width: 20.0,
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Users',
-                            style: GoogleFonts.poppins(
-                                fontSize: 16.0, fontWeight: FontWeight.w600),
-                          ),
-                          Text(usersController.users.length.toString(),
-                              style: GoogleFonts.poppins(
-                                fontSize: 16.0,
-                              ))
-                        ],
-                      )
+                      Obx(() => Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Users',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Text(usersController.users.length.toString(),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16.0,
+                                  ))
+                            ],
+                          ))
                     ]),
                   )),
               SizedBox(
@@ -102,7 +111,7 @@ class _DashboardState extends State<Dashboard> {
               ),
               GestureDetector(
                   onTap: () {
-                    Get.to(() => const ReadStudiesPage());
+                    Get.to(() => const FetchStudiesPage());
                   },
                   child: Container(
                     height: 90.0,
@@ -112,27 +121,67 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     child: Row(children: [
                       Icon(
-                        Icons.bookmark_outline,
+                        Icons.book_outlined,
                         size: 35.0,
                       ),
                       SizedBox(
                         width: 20.0,
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Studies',
-                            style: GoogleFonts.poppins(
-                                fontSize: 16.0, fontWeight: FontWeight.w600),
-                          ),
-                          Text(usersController.users.length.toString(),
-                              style: GoogleFonts.poppins(
-                                fontSize: 16.0,
-                              ))
-                        ],
-                      )
+                      Obx(() => Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Studies',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Text(studiesController.studies.length.toString(),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16.0,
+                                  ))
+                            ],
+                          ))
+                    ]),
+                  )),
+              SizedBox(
+                height: 10.0,
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Get.to(() => FetchClassPage());
+                  },
+                  child: Container(
+                    height: 90.0,
+                    color: Colors.red,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                    ),
+                    child: Row(children: [
+                      Icon(
+                        Icons.school_outlined,
+                        size: 35.0,
+                      ),
+                      SizedBox(
+                        width: 20.0,
+                      ),
+                      Obx(() => Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Class',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Text(studiesController.studies.length.toString(),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16.0,
+                                  ))
+                            ],
+                          ))
                     ]),
                   ))
             ],

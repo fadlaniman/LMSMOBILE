@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile/controller/attachmentController.dart';
-
 import 'package:mobile/view/assets/style.dart';
-import 'package:mobile/view/teacher/attachments/create-assignment.dart';
-import 'package:mobile/view/teacher/attachments/create-material.dart';
-import 'package:mobile/view/widgets/floatingButtonBottom.dart';
-import 'package:mobile/view/widgets/showBottom.dart';
+import 'package:mobile/view/student/fetch-assignment.dart';
 
-class ClassWorkPage extends StatefulWidget {
-  const ClassWorkPage({super.key});
+class StudentClassWorkPage extends StatefulWidget {
+  const StudentClassWorkPage({super.key});
 
   @override
-  State<ClassWorkPage> createState() => _ClassWorkPageState();
+  State<StudentClassWorkPage> createState() => _StudentClassWorkPageState();
 }
 
-class _ClassWorkPageState extends State<ClassWorkPage> {
+class _StudentClassWorkPageState extends State<StudentClassWorkPage> {
   final attachmentsController = Get.put(AttachmentsController());
 
   @override
@@ -35,7 +32,14 @@ class _ClassWorkPageState extends State<ClassWorkPage> {
                     itemCount: attachmentsController.attachments.length,
                     itemBuilder: ((context, index) {
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          attachmentsController.fetchById(
+                              attachmentsController
+                                      .attachments[index].classId ??
+                                  '',
+                              attachmentsController.attachments[index].id ?? 0);
+                          Get.to(() => const StudentAssignmentPage());
+                        },
                         child: Container(
                           margin: EdgeInsets.all(5.0),
                           padding: EdgeInsets.all(3.0),
@@ -76,11 +80,9 @@ class _ClassWorkPageState extends State<ClassWorkPage> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   subtitle: Text(
-                                      attachmentsController
-                                              .attachments[index].description ??
-                                          '',
+                                      '${DateFormat('d MMMM').format(attachmentsController.attachments[index].createdAt ?? DateTime.now())}',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 13.0,
+                                        fontSize: 14.0,
                                       ))),
                             ],
                           ),
@@ -88,42 +90,6 @@ class _ClassWorkPageState extends State<ClassWorkPage> {
                       );
                     }));
           })),
-      floatingActionButton: FloatingButtonWidget(
-        color: Colors.white,
-        backgroundColor: primaryColor,
-        onPress: () {
-          ShowBottom().showModalBottom(
-              context,
-              Wrap(
-                children: [
-                  ListTile(
-                    title: Text(
-                      'Create',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                          fontSize: 20.0, fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  ListTile(
-                    title: Text('Assignment'),
-                    leading: Icon(Icons.assignment_outlined),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      Get.to(() => CreateAssignment());
-                    },
-                  ),
-                  ListTile(
-                    title: Text('Material'),
-                    leading: Icon(Icons.class_outlined),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      Get.to(() => CreateMaterial());
-                    },
-                  )
-                ],
-              ));
-        },
-      ),
     );
   }
 }

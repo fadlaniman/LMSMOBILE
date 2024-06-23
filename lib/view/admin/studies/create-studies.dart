@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/controller/studiesController.dart';
-import 'package:mobile/controller/usersController.dart';
-import 'package:mobile/view/widgets/input.dart';
 import 'package:mobile/view/widgets/textButton.dart';
-import 'package:random_string/random_string.dart';
 
 class CreateStudiesPage extends StatefulWidget {
   const CreateStudiesPage({super.key});
@@ -14,12 +11,12 @@ class CreateStudiesPage extends StatefulWidget {
 }
 
 class _CreateStudiesPageState extends State<CreateStudiesPage> {
-  final usersController = Get.put(UsersController());
-  dynamic _duration;
-  final id = TextEditingController();
-  final name = TextEditingController();
-  final desctiprion = TextEditingController();
-  final duration = TextEditingController();
+  final studiesController = Get.put(StudiesController());
+  final _id = TextEditingController();
+  final _name = TextEditingController();
+  final _description = TextEditingController();
+  final _duration = TextEditingController();
+  bool isValid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,14 @@ class _CreateStudiesPageState extends State<CreateStudiesPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Studies'),
-                  Button(title: 'Create', onPress: () {}),
+                  Button(
+                    title: 'Create',
+                    onPress: () {
+                      final duration = int.tryParse(_duration.text);
+                      studiesController.send(_id.text.trim(), _name.text.trim(),
+                          _description.text.trim(), duration!);
+                    },
+                  )
                 ])),
         body: SingleChildScrollView(
           child: Container(
@@ -42,9 +46,9 @@ class _CreateStudiesPageState extends State<CreateStudiesPage> {
             child: Column(
               children: [
                 TextFormField(
-                  controller: id,
+                  controller: _id,
                   decoration: InputDecoration(
-                    hintText: 'UID',
+                    hintText: 'ID',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -52,7 +56,7 @@ class _CreateStudiesPageState extends State<CreateStudiesPage> {
                   height: 15.0,
                 ),
                 TextFormField(
-                  controller: name,
+                  controller: _name,
                   decoration: InputDecoration(
                     hintText: 'Name',
                     border: OutlineInputBorder(),
@@ -62,7 +66,7 @@ class _CreateStudiesPageState extends State<CreateStudiesPage> {
                   height: 15.0,
                 ),
                 TextFormField(
-                  controller: desctiprion,
+                  controller: _description,
                   decoration: InputDecoration(
                     hintText: 'Description',
                     border: OutlineInputBorder(),
@@ -70,6 +74,22 @@ class _CreateStudiesPageState extends State<CreateStudiesPage> {
                 ),
                 SizedBox(
                   height: 15.0,
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value!.isEmpty || value.length > 1) {
+                      setState(() {
+                        isValid = true;
+                      });
+                    }
+                  },
+                  controller: _duration,
+                  decoration: InputDecoration(
+                    hintText: 'Duration',
+                    errorText: isValid ? 'only one number' : null,
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ],
             ),
