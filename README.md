@@ -8,9 +8,8 @@ Aplikasi ini dibangun untuk memenuhi tugas proyek pada mata kuliah Pemrograman M
 
 
 #Documentation
-![WhatsApp Image 2024-06-23 at 23 13 39](https://github.com/fadlaniman/Learning-Management-System-Mobile/assets/115203573/9aef284e-2aab-4c6b-b4ab-f3d503240504)
-![WhatsApp Image 2024-06-23 at 16 09 13](https://github.com/fadlaniman/Learning-Management-System-Mobile/assets/115203573/7e3fe163-0a78-4e11-9c59-dd734f90541c)
-![WhatsApp Image 2024-06-23 at 16 09 13 (1)](https://github.com/fadlaniman/Learning-Management-System-Mobile/assets/115203573/adc4f939-8f90-4843-abeb-6fb3adef8ae8)
+![WhatsApp Image 2024-06-23 at 23 25 56 (1)](https://github.com/fadlaniman/Learning-Management-System-Mobile/assets/115203573/bd1d8880-f73d-47ee-b94e-655c91a8e076)
+
 
 
 #Install Application
