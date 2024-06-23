@@ -7,7 +7,8 @@ Aplikasi ini dibangun untuk memenuhi tugas proyek pada mata kuliah Pemrograman M
 - Siswa : Mengisi Absensi, Mengakses Materi & Tugas, Mengumpulkan Tugas
 
 
-![Build Status](https://img.shields.io/github/actions/workflow/status/username/flutter_project/flutter.yml?branch=main)
+![Build Status](https://img.shields.io/github/actions/workflow/status/username/repo-name/laravel.yml?branch=main)
+
 
 
 #Documentation
